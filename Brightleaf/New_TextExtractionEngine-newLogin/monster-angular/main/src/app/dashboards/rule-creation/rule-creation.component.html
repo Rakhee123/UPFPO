@@ -1,0 +1,433 @@
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">PDF Section </h4>
+
+        <div class="form-group row" style="
+        margin-bottom: -5px">
+          <label for="example-text-input" class="col-3 col-form-label">Read PDF</label>
+          <div class="col-9">
+            <input class="custom-file-input" (change)="onFileSelected()" type="file" id="file">
+            <label [innerHtml]="filename" [(ngModel)]="filename" class="custom-file-label" for="file">Select
+              File</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="pdf-container" style="margin-top: -10px">
+      <input id="userNameNone" type="text" name="username" autocomplete="new-password">
+      <input id="passwordNone" type="password" name="password" autocomplete="new-password">
+      <ngx-extended-pdf-viewer [src]="pdfSrc" delayFirstView="250" height="151.70vh" [showPrintButton]="false"
+        [showOpenFileButton]="false" [showDownloadButton]="false" [showBookmarkButton]="false" [showDownloadButton]="false" useBrowserLocale="true">
+      </ngx-extended-pdf-viewer>
+    </div>
+  </div>
+
+
+
+  <div class="col-lg-6 card">
+    <form name="form" (ngSubmit)="f.form.valid && onSubmit(f)" #f="ngForm" novalidate>
+      <div class="card">
+        <div class="card-body" style="
+      margin-bottom: -45px">
+          <h4 class="card-title">Rule Creation Section</h4>
+
+
+          <div class="form-group row">
+            <label for="example-text-input" class="col-4 col-form-label">Document Type</label>
+            <div class="col-8">
+              <ng-multiselect-dropdown id="docType" name="docType" [data]="docType" [(ngModel)]="singleselectedItems"
+                [settings]="singledropdownSettings" (onSelect)="onDocTypeSelect($event)"
+                (onDeSelect)="onDocTypeUnselect($event)">
+              </ng-multiselect-dropdown>
+              <input class="form-control" type="hidden" [(ngModel)]="rule.documentTypeId" name="doccType"
+                #doccType="ngModel" [ngClass]="{ 'is-invalid': f.submitted && doccType.invalid }"
+                [required]="documentRequire">
+              <div *ngIf="f.submitted && doccType.invalid" class="invalid-feedback">
+                <div *ngIf="doccType.errors.required">Document Type is required.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="example-text-input" class="col-4 col-form-label">Attribute Name</label>
+            <div class="col-8">
+              <ng-multiselect-dropdown name="attribute" [data]="attribute" [(ngModel)]="singleselectedItems1"
+                [settings]="singledropdownSettings1" (onSelect)="onAttributeSelect($event)"
+                (onDeSelect)="onAttributeUnSelect($event)">
+              </ng-multiselect-dropdown>
+              <input class="form-control" type="hidden" [(ngModel)]="rule.attributeId" name="attributeId"
+                #attributeId="ngModel" [ngClass]="{ 'is-invalid': f.submitted && attributeId.invalid }"
+                [required]="attributeRequire">
+              <div *ngIf="f.submitted && attributeId.invalid" class="invalid-feedback">
+                <div *ngIf="attributeId.errors.required">Attribute Name is required.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="form-group row">
+          <label for="example-text-input" class="col-4 col-form-label">Rule Set</label>
+          <div class="col-8">
+            <ng-multiselect-dropdown name="ruleset" [data]="ruleset" [(ngModel)]="singleselectedItems2"
+              [settings]="singledropdownSettings2" (onSelect)="onRuleSetSelect($event)"  (onDeSelect)="onRuleSetUnSelect($event)">
+            </ng-multiselect-dropdown>
+            <input class="form-control"  type="hidden"  [(ngModel)]="this.ruleSetId"  name="ruleSetId" #ruleSetId2="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ruleSetId2.invalid }" required>
+            <div *ngIf="f.submitted && ruleSetId2.invalid" class="invalid-feedback">
+                <div *ngIf="ruleSetId2.errors.required">Rule set is required</div>
+            </div>
+          </div>
+        </div> -->
+
+        </div>
+      </div>
+       
+      <div class="row" >
+        <div class="col-md-1"></div>
+        <div class="col-md-5 border border-dark">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Text Before</h5>
+              <div class="form">
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" #textBefore1="ngModel" [(ngModel)]="rule.textBefore1"
+                      placeholder="Text Before 1" id="txtbfr1" name="textBefore1"
+                      [ngClass]="{ 'is-invalid': f.submitted && textBefore1.invalid }" [required]="textBeforeRequire1">
+                    <div *ngIf="f.submitted && textBefore1.invalid" class="invalid-feedback">
+                      <div *ngIf="textBefore1.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="formNameBefore1" style="margin-top: -1em;">
+                  <input class="col-sm-2" type="checkbox" name="opBefore15" id="priorityHigh" #and1 value="AND"
+                    onclick="if(this.checked) {document.getElementById('formNameBefore1').children[1].checked =false;}"
+                    (click)="setAndOrBefore1(and1);setAndOr(and1)" data-text-type="textBefore2Disable"
+                    data-text-type2="opBefore1" />AND
+                  <input class="col-sm-2" type="checkbox" name="opBefore16" id="priorityLow" #or1 value="OR"
+                    onclick="if(this.checked) {document.getElementById('formNameBefore1').children[0].checked=false;}"
+                    (click)="setAndOrBefore1(or1);setAndOr(or1)" data-text-type="textBefore2Disable"
+                    data-text-type2="opBefore1" />OR
+                </div>
+
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" [disabled]="textBefore2Disable" #textBefore2="ngModel"
+                      [(ngModel)]="rule.textBefore2" placeholder="Text Before 2" id="txtbfr2" name="textBefore2"
+                      [ngClass]="{ 'is-invalid': f.submitted && textBefore2.invalid }" [required]="textBeforeRequire2">
+                    <div *ngIf="f.submitted && textBefore2.invalid" class="invalid-feedback">
+                      <div *ngIf="textBefore2.errors.required">required</div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div id="formNameBefore2" style="margin-top: -1em;">
+                  <input class="col-sm-2" type="checkbox" name="opBefore25" [disabled]="textBefore2Disable"
+                    [(ngModel)]="textBefore2checkedand" id="priorityHigh" #and2 value="AND"
+                    onclick="if(this.checked) {document.getElementById('formNameBefore2').children[1].checked =false;}"
+                    (click)="setAndOrBefore2(and2);setAndOr(and2)" data-text-type="textBefore3Disable"
+                    data-text-type2="opBefore2" />AND
+                  <input class="col-sm-2" type="checkbox" name="opBefore26" [disabled]="textBefore2Disable"
+                    [(ngModel)]="textBefore2checkedor" id="priorityLow" #or2 value="OR"
+                    onclick="if(this.checked) {document.getElementById('formNameBefore2').children[0].checked =false;}"
+                    (click)="setAndOrBefore2(or2);setAndOr(or2)" data-text-type="textBefore3Disable"
+                    data-text-type2="opBefore2" />OR
+                </div>
+
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" [disabled]="textBefore3Disable" placeholder="Text Before 3"
+                      #textBefore3="ngModel" [(ngModel)]="rule.textBefore3" id="txtbfr3" name="textBefore3"
+                      [ngClass]="{ 'is-invalid': f.submitted && textBefore3.invalid }"
+                      [required]="textBeforeRequire3" />
+                    <div *ngIf="f.submitted && textBefore3.invalid" class="invalid-feedback">
+                      <div *ngIf="textBefore3.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+                <form id="formNameBefore3" style="margin-top: -1em;">
+                  <input class="col-sm-2" type="checkbox" name="opBefore35" [disabled]="textBefore3Disable"
+                    [(ngModel)]="textBefore3checkedand" id="priorityHigh" #and3 value="AND"
+                    onclick="if(this.checked) {document.getElementById('formNameBefore3').children[1].checked =false;}"
+                    (click)="setAndOrBefore3(and3);setAndOr(and3)" data-text-type="textBefore4Disable"
+                    data-text-type2="opBefore3" />AND
+                  <input class="col-sm-2" type="checkbox" name="opBefore36" [disabled]="textBefore3Disable"
+                    [(ngModel)]="textBefore3checkedor" id="priorityLow" #or3 value="OR"
+                    onclick="if(this.checked) {document.getElementById('formNameBefore3').children[0].checked =false;}"
+                    (click)="setAndOrBefore3(or3);setAndOr(or3)" data-text-type="textBefore4Disable"
+                    data-text-type2="opBefore3" />OR
+                </form>
+
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" [disabled]="textBefore4Disable" placeholder="Text Before 4"
+                      #textBefore4="ngModel" [(ngModel)]="rule.textBefore4" id="txtbfr4" name="textBefore4"
+                      [ngClass]="{ 'is-invalid': f.submitted && textBefore4.invalid }" [required]="textBeforeRequire4">
+                    <div *ngIf="f.submitted && textBefore4.invalid" class="invalid-feedback">
+                      <div *ngIf="textBefore4.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <form id="formNameBefore4" style="margin-top: -1em;">
+                  <input class="col-sm-2" type="checkbox" name="opBefore45" [disabled]="textBefore4Disable"
+                    [(ngModel)]="textBefore4checkedand" id="priorityHigh" #and4 value="AND"
+                    onclick="if(this.checked) {document.getElementById('formNameBefore4').children[1].checked =false;}"
+                    (click)="setAndOrBefore4(and4);setAndOr(and4)" data-text-type="textBefore5Disable"
+                    data-text-type2="opBefore4" />AND
+                  <input class="col-sm-2" type="checkbox" name="opBefore46" [disabled]="textBefore4Disable"
+                    [(ngModel)]="textBefore4checkedor" id="priorityLow" #or4 value="OR"
+                    onclick="if(this.checked) {document.getElementById('formNameBefore4').children[0].checked =false;}"
+                    (click)="setAndOrBefore4(or4);setAndOr(or4)" data-text-type="textBefore5Disable"
+                    data-text-type2="opBefore4" />OR
+                </form>
+
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" [disabled]="textBefore5Disable" placeholder="Text Before 5"
+                      #textBefore5="ngModel" [(ngModel)]="rule.textBefore5" id="txtbfr5" name="textBefore5"
+                      [ngClass]="{ 'is-invalid': f.submitted && textBefore5.invalid }" [required]="textBeforeRequire5">
+                    <div *ngIf="f.submitted && textBefore5.invalid" class="invalid-feedback">
+                      <div *ngIf="textBefore5.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-5 border border-dark">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Text After</h5>
+              <div class="form">
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" #textAfter1="ngModel" [(ngModel)]="rule.textAfter1"
+                      placeholder="Text After 1" id="txtaft1" name="textAfter1"
+                      [ngClass]="{ 'is-invalid': f.submitted && textAfter1.invalid }" [required]="textAfterRequire1">
+                    <div *ngIf="f.submitted && textAfter1.invalid" class="invalid-feedback">
+                      <div *ngIf="textAfter1.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="formNameAfter1" style="margin-top: -1em;">
+                  <input class="col-sm-2" type="checkbox" name="opAfter15" id="priorityHigh" #andAfter1 value="AND"
+                    onclick="if(this.checked) {document.getElementById('formNameAfter1').children[1].checked =false;}"
+                    (click)="setAndOrAfter1(andAfter1);setAndOr(andAfter1)" data-text-type="textAfter2Disable"
+                    data-text-type2="opAfter1" />AND
+                  <input class="col-sm-2" type="checkbox" name="opAfter16" id="priorityLow" #orAfter1 value="OR"
+                    onclick="if(this.checked) {document.getElementById('formNameAfter1').children[0].checked =false;}"
+                    (click)="setAndOrAfter1(orAfter1);setAndOr(orAfter1)" data-text-type="textAfter2Disable"
+                    data-text-type2="opAfter1" />OR
+                </div>
+
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" [disabled]="textAfter2Disable" #textAfter2="ngModel"
+                      [(ngModel)]="rule.textAfter2" placeholder="Text After 2" id="txtaft2" name="textAfter2"
+                      [ngClass]="{ 'is-invalid': f.submitted && textAfter2.invalid }" [required]="textAfterRequire2">
+                    <div *ngIf="f.submitted && textAfter2.invalid" class="invalid-feedback">
+                      <div *ngIf="textAfter2.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="formNameAfter2" style="margin-top: -1em;">
+                  <input class="col-sm-2" type="checkbox" name="opAfter25" [disabled]="textAfter2Disable"
+                    [(ngModel)]="textAfter2checkedand" id="priorityHigh" #andAfter2 value="AND"
+                    onclick="if(this.checked) {document.getElementById('formNameAfter2').children[1].checked =false;}"
+                    (click)="setAndOrAfter2(andAfter2);setAndOr(andAfter2)" data-text-type="textAfter3Disable"
+                    data-text-type2="opAfter2" />AND
+                  <input class="col-sm-2" type="checkbox" name="opAfter26" [disabled]="textAfter2Disable"
+                    [(ngModel)]="textAfter2checkedor" id="priorityLow" #orAfter2 value="OR"
+                    onclick="if(this.checked) {document.getElementById('formNameAfter2').children[0].checked =false;}"
+                    (click)="setAndOrAfter2(orAfter2);setAndOr(orAfter2)" data-text-type="textAfter3Disable"
+                    data-text-type2="opAfter2" />OR
+                </div>
+
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" [disabled]="textAfter3Disable" #textAfter3="ngModel"
+                      [(ngModel)]="rule.textAfter3" placeholder="Text After 3" id="txtaft3" name="textAfter3"
+                      [ngClass]="{ 'is-invalid': f.submitted && textAfter3.invalid }" [required]="textAfterRequire3">
+                    <div *ngIf="f.submitted && textAfter3.invalid" class="invalid-feedback">
+                      <div *ngIf="textAfter3.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="formNameAfter3" style="margin-top: -1em;">
+                  <input class="col-sm-2" type="checkbox" name="opAfter35" [disabled]="textAfter3Disable"
+                    [(ngModel)]="textAfter3checkedand" id="priorityHigh" #andAfter3 value="AND"
+                    onclick="if(this.checked) {document.getElementById('formNameAfter3').children[1].checked =false;}"
+                    (click)="setAndOrAfter3(andAfter3);setAndOr(andAfter3)" data-text-type="textAfter4Disable"
+                    data-text-type2="opAfter3" />AND
+                  <input class="col-sm-2" type="checkbox" name="opAfter36" [disabled]="textAfter3Disable"
+                    [(ngModel)]="textAfter3checkedor" id="priorityLow" #orAfter3 value="OR"
+                    onclick="if(this.checked) {document.getElementById('formNameAfter3').children[0].checked =false;}"
+                    (click)="setAndOrAfter3(orAfter3);setAndOr(orAfter3)" data-text-type="textAfter4Disable"
+                    data-text-type2="opAfter3" />OR
+                </div>
+
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" [disabled]="textAfter4Disable" #textAfter4="ngModel"
+                      [(ngModel)]="rule.textAfter4" placeholder="Text After 4" id="txtaft4" name="textAfter4"
+                      [ngClass]="{ 'is-invalid': f.submitted && textAfter4.invalid }" [required]="textAfterRequire4">
+                    <div *ngIf="f.submitted && textAfter4.invalid" class="invalid-feedback">
+                      <div *ngIf="textAfter4.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="formNameAfter4" style="margin-top: -1em;">
+                  <input class="col-sm-2" type="checkbox" name="opAfter45" [disabled]="textAfter4Disable"
+                    [(ngModel)]="textAfter4checkedand" id="priorityHigh" #andAfter4 value="AND"
+                    onclick="if(this.checked) {document.getElementById('formNameAfter4').children[1].checked =false;}"
+                    (click)="setAndOrAfter4(andAfter4);setAndOr(andAfter4)" data-text-type="textAfter5Disable"
+                    data-text-type2="opAfter4" />AND
+                  <input class="col-sm-2" type="checkbox" name="opAfter46" [disabled]="textAfter4Disable"
+                    [(ngModel)]="textAfter4checkedor" id="priorityLow" #orAfter4 value="OR"
+                    onclick="if(this.checked) {document.getElementById('formNameAfter4').children[0].checked =false;}"
+                    (click)="setAndOrAfter4(orAfter4);setAndOr(orAfter4)" data-text-type="textAfter5Disable"
+                    data-text-type2="opAfter4" />OR
+                </div>
+
+                <div class="form-group m-t-20 row">
+                  <div class="col-10">
+                    <input class="form-control" type="text" [disabled]="textAfter5Disable" #textAfter5="ngModel"
+                      [(ngModel)]="rule.textAfter5" placeholder="Text After 5" id="txtaft5" name="textAfter5"
+                      [ngClass]="{ 'is-invalid': f.submitted && textAfter5.invalid }" [required]="textAfterRequire5">
+                    <div *ngIf="f.submitted && textAfter5.invalid" class="invalid-feedback">
+                      <div *ngIf="textAfter5.errors.required">required</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+
+
+
+      </div>   
+      <div class="form-group row p-t-20">
+        <div class="col-sm-4" style="padding-left: 45px;">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck1" #ignoreCase="ngModel"
+              [(ngModel)]="rule.ignoreCase" placeholder="Ignore Case" name="ignorecase">
+            <label class="custom-control-label" for="customCheck1">Ignore Case</label>
+          </div>
+        </div>
+
+        <div class="col-sm-4" style="padding-left: 100px;">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck2" #merge="ngModel"
+              [(ngModel)]="rule.merge" placeholder="Merge" name="merge">
+            <label class="custom-control-label" for="customCheck2">Merge</label>
+          </div>
+        </div>
+
+        <div class="col-md-11 m-t-20" style="padding-left: 20px;">
+          <input class="form-control m-l-20 m-r-20" type="text" placeholder="Regular Expression" id="rgtxt"
+            #regex="ngModel" [(ngModel)]="rule.regex" name="regex">
+
+          <!-- <div id='errorDiv' *ngIf="this.show" class="m-l-20 m-t-10"  [(ngModel)]="this.show">
+          <div style="color:red">Please fill at least one field Regular Expression, Text Before 1 or Text After 1 from above.</div>
+      </div> -->
+
+          <br><br>
+          <input class="form-control m-l-20 m-r-20" type="text" placeholder="Search Words" id="search_words"
+            #searchword="ngModel" [(ngModel)]="rule.searchword" name="searchword">
+          <br><br>
+          <div class="row">
+            <div class="col-sm-6" style="padding-left: 36px">
+              <input class="form-control" type="text" placeholder="If found" id="if_found" #found="ngModel"
+                [(ngModel)]="rule.found" name="found">
+            </div>
+            <div class="col-sm-6">
+              <input class="form-control" type="text" placeholder="If not found" id="if_not_found" #notfound="ngModel"
+                [(ngModel)]="rule.notfound" name="notfound">
+            </div>
+          </div>
+
+          <div id='errorDiv' *ngIf="this.show" class="m-l-20 m-t-10" [(ngModel)]="this.show">
+            <div style="color:red;font-size: small;">Please fill at least one field Text Before 1 or Text After 1 or Regular Expression
+              from above.</div>
+          </div>
+
+          <div class="form-actions text-center">
+            <div class="card-body">
+
+              <div class="form-group">
+                <button *ngIf="submitCancelButton" type="submit" id="saveUpdateButton" class="btn btn-success m-r-40">Submit</button>
+                <button *ngIf="submitCancelButton" type="reset" (click)="resetOnCancel()" class="btn btn-dark">Cancel</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+
+
+<div class="row page-titles" style="margin-top: -2em;">
+  <div class="col-md-6 col-8 align-self-center">
+  </div>
+</div>
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Rule List </h4>
+        <div class="table-responsive">
+          <table class="table" id="myRuleTable">
+            <thead>
+              <tr>
+                <th>Rule ID</th>
+                <th>Document Type</th>
+                <th>Attribute Name </th>
+                <th>Rule</th>
+                <th>Edit Rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rulet of ruleTable">
+                <td>{{rulet.rule.ruleId}}</td>
+                <td> {{rulet.docAndAttribute.documentType}}</td>
+                <td> {{rulet.docAndAttribute.attributeName}}</td>
+                <td width="50%">{{getFormatedRule(rulet.rule,rulet.docAndAttribute.attributeName)}}</td>
+                <td> <button class="btn" (click)="editButton(rulet.rule.ruleId)"><i
+                      class="ti-pencil text-success" [ngbTooltip]="htmlContent"></i>
+                      <ng-template #htmlContent>
+                          <p>Edit</p>
+                      </ng-template>
+                      </button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

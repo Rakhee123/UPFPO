@@ -1,0 +1,127 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Extraction List </h4>
+
+        <ngb-tabset type="pills" [orientation]="currentOrientation" (tabChange)="fetchNews($event)" #t="ngbTabset">
+          <ngb-tab title="Company wise Extraction Statistics" [id]="1">
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-md-12 col-8 align-self-right">
+                  <button class="btn pull-right hidden-sm-down btn-info" type="button" (click)="ExportCompanyWise()">
+                    <i class="mdi mdi-file-excel"></i> Export</button>
+                </div>
+                <div class="col-sm-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table" id="myTable">
+                          <thead>
+                            <tr style="font-size: 14px;">
+                              <th>Company Name </th>
+                              <th>Total Transaction </th>
+                              <th>Total Extractions </th>
+                              <th>Correct Extraction</th>
+                              <th>Incorrect Extraction </th>
+                              <th>Accuracy Percentage</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let comReport of CompanyReport">
+                              <td>{{comReport.companyName}}</td>
+                              <td>{{comReport.totalTransaction}}</td>
+                              <td>{{comReport.totalExtractions}}</td>
+                              <td>{{comReport.correctExtraction}}</td>
+                              <td>{{comReport.incorrectExtraction}}</td>
+                              <td>{{comReport.accuracyPercentage}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+
+          <ngb-tab title="User wise Extraction Statistics" [id]="2">
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-md-12 col-8 align-self-right">
+                  <button class="btn pull-right hidden-sm-down btn-info" type="button" (click)="ExportUserWise()">
+                    <i class="mdi mdi-file-excel"></i> Export</button>
+                </div>
+                
+
+                
+                <div class="col-sm-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table" id="myTable">
+
+                          <thead>
+                            <tr style="font-size: 14px;">
+                              <th>User Name </th>
+                              <th>Company Name </th>
+                              
+                              <th>Total Attributes QC1</th>
+                              <th>Changed Attributes QC1</th>
+                              <th>Changes % QC1</th>
+                              <th>Changed BY QC2</th>
+                              
+                              <th>Total Attributes QC2</th>
+                              <th>Changed Attributes QC2</th>
+                              <th>Changes % QC2</th>
+                              <th>Changed BY QC3</th>
+
+                              <th>Total Attributes QC3</th>
+                              <th>Changed Attributes QC3</th>
+                              <th>Changes % QC3</th>
+
+                              <th>Changed Transactions</th>
+                              <th>Changed Attributes</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let userReport of UserReport">
+                              <td>{{userReport.userName}}</td>
+                              <td>{{userReport.companyName}}</td>
+
+                              <td>{{userReport.totalAttributes_qc1}}</td>
+                              <td>{{userReport.changedAttributes_qc1}}</td>
+                              <td>{{userReport.percent_qc1}}</td>
+                              <td>{{userReport.attributeChangedByNextQC_qc1}}</td>
+
+                              <td>{{userReport.totalAttributes_qc2}}</td>
+                              <td>{{userReport.changedAttributes_qc2}}</td>
+                              <td>{{userReport.percent_qc2}}</td>
+                              <td>{{userReport.attributeChangedByNextQC_qc2}}</td>
+
+                              <td>{{userReport.totalAttributes_qc3}}</td>
+                              <td>{{userReport.changedAttributes_qc3}}</td>
+                              <td>{{userReport.percent_qc3}}</td>
+
+                              <td>{{userReport.transactionId}}</td>
+                              <td>{{userReport.changedAttributeList}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

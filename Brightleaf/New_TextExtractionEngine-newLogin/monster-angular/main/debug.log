@@ -1,0 +1,4 @@
+[1029/215855.249:ERROR:crash_report_database_win.cc(428)] unexpected header
+[1029/223220.581:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0619/165717.940:ERROR:process_info.cc(359)] UncheckedAllocate
+[0619/165738.622:ERROR:process_info.cc(359)] UncheckedAllocate

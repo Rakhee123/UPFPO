@@ -1,0 +1,165 @@
+<div class="row" #customLoadingTemplate>
+  <div class="col-12 align-self-center">
+    <div class="card align-self-center">
+      <div class="card-body col-12 align-self-center">
+        <form (ngSubmit)="!rf.invalid" #rf="ngForm" novalidate>
+          <h6 class="card-subtitle" style="color:royalblue">You can select location of the file, configure the settings
+            for the execution and start the execution here.</h6>
+          <br>
+          <ngb-tabset type="pills" #t="ngbTabset" (tabChange)="selectNextTab($event)" [justify]="currentJustify"
+            [destroyOnHide]="false">
+            <ngb-tab id="tab-selectbyid1" name="fileselect">
+              <ng-template ngbTabTitle> <b> <i class="fa fa-file-pdf-o" style="font-size:21px;"></i> Select File </b>
+              </ng-template>
+              <ng-template ngbTabContent><br>
+                <div class="card">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <h6 class="card-subtitle" style="color:royalblue">Select the location for execution, where your
+                        files are kept. </h6>
+                      <input type="file" required class="executionBrowse" id="fileUpload" name="upFiles"
+                        (change)="onSelectFile($event)" multiple />      
+                    </div>
+                    <div *ngIf="!isDisabled">
+                      <h6  style="color: royalblue">Go to 'Configure & Execute' for execution.</h6>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tab-selectbyid2" [disabled]="isDisabled">
+              <ng-template ngbTabTitle><b><i class="fa icon-wrench" style="font-size:21px"></i> Configure & Execute</b>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <p>
+                  <p>
+                    <h6 class="card-subtitle" style="color:royalblue">Configure the execution process. </h6>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="form-group">
+                          <p>
+                            <p>              
+                                <div class="form-group">
+                                  <label>Transaction identifier</label>
+                                  <input name="tsName" [(ngModel)]="model.tsName" #tsName="ngModel" id="tsName"
+                                    type="text" class="form-control" placeholder="transaction identifier"
+                                    pattern=^$|^[A-Za-z0-9]+>                             
+                                <div *ngIf="tsName.invalid && (tsName.dirty || tsName.touched)"
+                                  class="errorMessage">
+                                  <div *ngIf="tsName.errors.required"> number Of Qc Levels is required. </div>
+                                  <div *ngIf="tsName.errors.pattern">Please enter alphanumeric values only.</div>
+                                </div>
+                              </div>                              
+                              <label class="control-label">Document type </label>
+                              <select name="docType" id="docType" #docType="ngModel"
+                                (change)="changedocumnettype($event.target.value)" [(ngModel)]="model.docType"
+                                [ngClass]="{ 'is-invalid': rf.submitted && docType.invalid }"
+                                class="form-control custom-select" data-placeholder="Choose a documenttype"
+                                required="required">
+                                <option [ngValue]="Select" selected>Select Document type.</option>
+                                <option *ngFor="let doc of documents" [value]="doc.documentTypeId">{{doc.documentName}}
+                                </option>
+                              </select>
+                              <div class="errorMessage"
+                                *ngIf="docType.invalid && (docType.dirty || docType.touched || docType.Select)">
+                                <div *ngIf="docType.errors.required">Document type is required.</div>
+                              </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label">Rule set</label>
+                          <select required="required" name="rulesetNm" id="ruleset" #rulesetNm="ngModel"
+                            [(ngModel)]="model.rulesetNm" class="form-control custom-select"
+                            (change)="openExecuteTab(rf)"
+                            [ngClass]="{ 'is-invalid': rf.submitted && rulesetNm.invalid }">
+                            <option [ngValue]="Select" selected name="rules">Select Rule set</option>
+                            <option *ngFor="let rule of ruleset" [value]="rule.ruleSetId">{{rule.ruleSetName}}</option>
+                          </select>
+                          <div class="errorMessage"
+                            *ngIf="rulesetNm.invalid && (rulesetNm.dirty || rulesetNm.touched || rulesetNm.rules)">
+                            <div *ngIf="rulesetNm.errors.required">Rule set name is required.</div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-5" ></div>
+                          <div class="col-md-2">
+                            <button type="submit" [disabled]="!rf.dirty || rf.invalid" (click)="testing(rf)" 
+                              class="btn pull-right btn-info" style="margin-top:20px;">
+                              <i class="fa" class="fa" [ngClass]="{'fa-spin fa-gear': isLoading, 'icon-settings': !isLoading}"
+                                style="font-size:21px;">
+                              </i> Start Execution</button>
+                          </div>
+                          <div class="col-md-5"></div>
+                        </div>
+                        <br><br>
+                        <div class="row" *ngIf="transactionDiv">
+                          <div class="col-md-12">
+                            <div class="alert alert-success">
+                              <span class="fa fa-check-circle"></span> The Execution has finished. Please note the transaction
+                              id for this execution is <strong><a href="javascript:void(0)"
+                                  id="transactionLinkiii_TX_228_1560232967346"
+                                  (click)="popForTranId(consolDocumentPop,1,transactionId)"> <span>{{transactionId}}</span>
+                                </a></strong>. You will be able to see the detailed results in the 'Results'.
+                              <strong>[<span>{{executionTime}}</span> secs] </strong>
+                            </div>
+                          </div>
+                        </div>
+      
+                        <div class="row" *ngIf="transactionErrorDiv">
+                          <div class="col-md-12">
+                            <div class="alert alert-danger">
+                              <span class="fa fa-times-circle"></span> The execution has failed due to some internal error.
+                              Please contact administrator.<strong> </strong>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<ng-template #consolDocumentPop let-modal>
+  <form (ngSubmit)="!consolDocumentPop.invalid" #consolDocumentPop="ngForm">
+    <div class="modal-header">
+      <h4 class="modal-title">Select Transactions Type</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="custom-control custom-radio col-md-6">
+            <input type="hidden" name="seletTransactionId" [(ngModel)]="seletTransactionId"
+              class="custom-control-input">
+            <input type="hidden" name="seletQcLevel" [(ngModel)]="seletQcLevel" class="custom-control-input">
+
+            <input type="radio" name="transactionType" [(ngModel)]="documentwise" [value]="1" id="documentwise"
+              class="custom-control-input" [attr.checked]="checked">
+            <label class="custom-control-label" for="documentwise">Document Wise</label>
+          </div>
+          <div class="custom-control custom-radio col-md-6">
+            <input type="radio" name="transactionType" [(ngModel)]="documentwise" [value]="2" id="consolidatewise"
+              class="custom-control-input">
+            <label class="custom-control-label" for="consolidatewise">Consolidated Wise</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-inverse" [disabled]="consolDocumentPop.invalid"
+        (click)="openTrnsactionConsoliAndDocument(consolDocumentPop)">Continue</button>
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </form>
+</ng-template>

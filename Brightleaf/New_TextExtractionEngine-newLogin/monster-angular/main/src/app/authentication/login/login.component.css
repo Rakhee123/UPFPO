@@ -1,0 +1,61 @@
+.piechart {
+  height: 375px;
+  width: 280px;
+  margin: 0 auto;
+}
+
+.card-title {
+  border-bottom: 1px solid gray;
+  padding-bottom: 10px;
+}
+
+/* .row.page-titles{
+    border-bottom: 1px solid gray;
+  } */
+
+.btn {
+  margin-left: 1%;
+}
+
+.modal-header {
+  /* background-color: #17a2b8; */
+  background-color: #bd2f1b;
+}
+
+.modal-header .modal-title {
+  color: #fff;
+}
+
+.modal-footer .btn {
+  background-color: #bd2f1b;
+  color: #fff;
+  border-color: #bd2f1b;
+  /* background-color: #17a2b8;
+    color:#fff;
+    border-color: #17a2b8;*/
+}
+
+.btn-info:hover {
+  color: #fff;
+  background-color: #bd2f1b;
+  border-color: #bd2f1b;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #bd2f1b;
+  border-color: #bd2f1b;
+}
+
+.btn-info, .btn-info.disabled {
+  background: #bd2f1b;
+  border: 1px solid #bd2f1b;
+}
+
+.modal-content {
+  border: 1px solid #bd2f1b;
+}
+.errorMessage{
+  color: rgb(243, 24, 24);
+  font-size: small;
+ }

@@ -1,0 +1,395 @@
+<aside class="left-sidebar" style="background: linear-gradient(to right,#0178bc 0,#00bdda 100%)">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- User profile -->
+        <!-- <div class="user-profile">
+           
+            <div class="profile-img">
+                <img src="assets/images/users/avt.jpg" alt="user" /> </div>
+          
+            <div class="profile-text">
+                <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    aria-expanded="true">Rakhee Jain
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu animated flipInY">
+                    <a href="#" class="dropdown-item">
+                        <i class="ti-user"></i> My Profile</a>
+                    <a href="#" class="dropdown-item">
+                        <i class="ti-wallet"></i> My Balance</a>
+                    <a href="#" class="dropdown-item">
+                        <i class="ti-email"></i> Inbox</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="ti-settings"></i> Setting</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/login" class="dropdown-item">
+                        <i class="fa fa-power-off"></i> Logout</a>
+                </div>
+            </div>
+        </div> -->
+        <!-- End User profile text-->
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav" style="margin-top: -3.5rem;">
+            <ul id="sidebarnav">
+                <li class="nav-devider"></li>
+                <!-- <li class="nav-small-cap">PERSONAL</li> -->
+                <!-- <li [class.active]="showMenu === 'dashboard'">
+                    <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('dashboard')">
+                        <i class="mdi mdi-gauge"></i>
+                        <span class="hide-menu">Dashboard</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'dashboard'">
+                        <li>
+                            <a routerLink="/dashboard/dashboard1" [routerLinkActive]="['router-link-active']">Modern</a>
+                        </li>
+                        <li>
+                            <a routerLink="/dashboard/dashboard2" [routerLinkActive]="['router-link-active']">Classic</a>
+                        </li>
+                        <li>
+                            <a routerLink="/dashboard/dashboard3" [routerLinkActive]="['router-link-active']">Analytical</a>
+                        </li>
+                    </ul>
+                </li> -->
+                <li [class.active]="showMenu === 'email'">
+                    <a *ngIf='service.isUserLoggedIn()' routerLink="/dashboard/companylist"
+                        (click)="addExpandClass('email')" [routerLinkActive]="['router-link-active']">
+                        <i class="fa fa-dashboard"></i>
+                        <span class="hide-menu">Dashboard</span>
+                    </a>
+
+                </li>
+
+                <!-- <li [class.active]="showMenu === 'email'">
+                    <a *ngIf='service.isUserLoggedIn()' routerLink="/dashboard/configure" (click)="addExpandClass('email')" [routerLinkActive]="['router-link-active']">
+                        <i class="fa fa-cog"></i>
+                        <span class="hide-menu">Rule Configure</span>
+                    </a>
+                </li> -->
+
+                <li [class.active]="showMenu === 'config'" *ngIf="this.basicAuthService.getAuthenteUser()">
+                    <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('config')">
+                        <i class="mdi mdi-table"></i>
+                        <span class="hide-menu" [ngbTooltip]="htmlContent" placement="right">Rule Configure <ng-template #htmlContent>
+                            <p>Add & configure rule set for this company</p>
+                        </ng-template></span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'config'">
+                        <li>
+                            <a *ngIf="this.ruleCreateButton" routerLink="/dashboard/configure"
+                                [routerLinkActive]="['router-link-active']">Document Type</a>
+                        </li>
+                        <li>
+                            <a *ngIf="this.ruleCreateButton" routerLink="/dashboard/attribute"
+                                [routerLinkActive]="['router-link-active']">Attribute</a>
+                        </li>
+                        <li>
+                            <a *ngIf="this.ruleCreateButton || this.ruleViewButton" routerLink="/dashboard/rulecreation" [routerLinkActive]="['router-link-active']">Rule Creation</a>
+                        </li>
+                        <li>
+                            <a *ngIf="this.ruleCreateButton" routerLink="/dashboard/ruleset" [routerLinkActive]="['router-link-active']">Rule Set</a>
+                        </li>
+                        <li>
+                            <a routerLink="/dashboard/addruletoruleset" [routerLinkActive]="['router-link-active']">Add Rules To Rule set</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li [class.active]="showMenu === 'email'">
+                    <a *ngIf='service.isUserLoggedIn()' routerLink="/dashboard/ruleexecution"
+                        (click)="addExpandClass('email')" [routerLinkActive]="['router-link-active']">
+                        <i class="fa mdi mdi-airplane-takeoff"></i>
+                        <span [ngbTooltip]="htmlContent1" placement="right" class="hide-menu">Execution
+                            <ng-template #htmlContent1>
+                            <p>Select & execute the existing rule set</p>
+                        </ng-template></span>
+                    </a>
+                </li>
+                <li [class.active]="showMenu === 'email'">
+                    <a *ngIf='service.isUserLoggedIn()' routerLink="/dashboard/result"
+                        (click)="addExpandClass('email')" [routerLinkActive]="['router-link-active']">
+                        <i class="fa mdi mdi-airplane-landing"></i>
+                        <span [ngbTooltip]="htmlContent2" placement="right" class="hide-menu">Result
+                                <ng-template #htmlContent2>
+                                        <p>To view, modify & export the transactions</p>
+                                    </ng-template> 
+                        </span>
+                    </a>
+                </li>
+                <li [class.active]="showMenu === 'email'">
+                    <a *ngIf='service.isUserLoggedIn() && this.reportViewButton' routerLink="/dashboard/report"
+                        (click)="addExpandClass('email')" [routerLinkActive]="['router-link-active']">
+                        <i class="fa fa-table"></i>
+                        <span [ngbTooltip]="htmlContent3" placement="right" class="hide-menu">Report
+                                <ng-template #htmlContent3>
+                                        <p>To view extraction statistics reports</p>
+                                    </ng-template>   
+                        </span>
+                    </a>
+                </li>
+                <!--<li [class.active]="showMenu === 'apps'">
+                    <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('apps')">
+                        <i class="mdi mdi-apps"></i>
+                        <span class="hide-menu">Apps</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'apps'">
+                        <li>
+                            <a routerLink="/apps/fullcalendar" [routerLinkActive]="['router-link-active']">Calendar</a>
+                        </li>
+                        <li>
+                            <a routerLink="/apps/taskboard" [routerLinkActive]="['router-link-active']">Task Board</a>
+                        </li>
+                    </ul>
+                </li>
+
+                 <li class="nav-small-cap">UI Components</li>
+                <li [class.active]="showMenu === 'component'">
+                    <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('component')" aria-expanded="false">
+                        <i class="mdi mdi-bullseye"></i>
+                        <span class="hide-menu">Component</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'component'">
+                        <li>
+                            <a routerLink="/component/accordion" [routerLinkActive]="['router-link-active']">Accordion</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/alert" [routerLinkActive]="['router-link-active']">Alert</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/carousel" [routerLinkActive]="['router-link-active']">Carousel</a>
+                        </li>
+
+                        <li>
+                            <a routerLink="/component/dropdown" [routerLinkActive]="['router-link-active']">Dropdown - Collapse</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/modal" [routerLinkActive]="['router-link-active']">Modal</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/pagination" [routerLinkActive]="['router-link-active']">Pagination</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/poptool" [routerLinkActive]="['router-link-active']">Popover & Tooltip</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/progressbar" [routerLinkActive]="['router-link-active']">Progressbar</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/rating" [routerLinkActive]="['router-link-active']">Ratings</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/tabs" [routerLinkActive]="['router-link-active']">Tabs</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/timepicker" [routerLinkActive]="['router-link-active']">Timepicker</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/buttons" [routerLinkActive]="['router-link-active']">Button</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/cards" [routerLinkActive]="['router-link-active']">Card</a>
+                        </li>
+                    </ul>
+                </li>
+                <li [class.active]="showMenu === 'extcomponent'">
+                    <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('extcomponent')">
+                        <i class="mdi mdi-dropbox"></i>
+                        <span class="hide-menu">Extra Components</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'extcomponent'">
+                        <li>
+                            <a routerLink="/extra-component/toastr" [routerLinkActive]="['router-link-active']">Toastr Notification</a>
+                        </li>
+                        <li>
+                            <a routerLink="/extra-component/upload" [routerLinkActive]="['router-link-active']">File Upload</a>
+                        </li>
+                        <li>
+                            <a routerLink="/extra-component/editor" [routerLinkActive]="['router-link-active']">Editor</a>
+                        </li>
+                        <li>
+                            <a routerLink="/extra-component/dragndrop" [routerLinkActive]="['router-link-active']">Drag n Drop</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-small-cap">Forms &amp; Tables</li>
+                <li [class.active]="showMenu === 'mainforms'">
+                    <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('mainforms')">
+                        <i class="mdi mdi-file"></i>
+                        <span class="hide-menu">Forms</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'mainforms'">
+                        <li>
+                            <a routerLink="/forms/basicform" [routerLinkActive]="['router-link-active']">Basic Forms</a>
+                        </li>
+                        <li>
+                            <a routerLink="/forms/formvalidation" [routerLinkActive]="['router-link-active']">Form Validation</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/typehead" [routerLinkActive]="['router-link-active']">Form Typehead</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/datepicker" [routerLinkActive]="['router-link-active']">Datepicker</a>
+                        </li>
+                        <li>
+                            <a routerLink="/component/language-datepicker" [routerLinkActive]="['router-link-active']">Language Datepicker</a>
+                        </li>
+                        <li>
+                            <a routerLink="/forms/multiselect" [routerLinkActive]="['router-link-active']">Multiselect</a>
+                        </li>
+                    </ul>
+                </li>
+                <li [class.active]="showMenu === 'tables'">
+                    <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('tables')">
+                        <i class="mdi mdi-table"></i>
+                        <span class="hide-menu">Tables</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'tables'">
+                        <li>
+                            <a routerLink="/tables/basictable" [routerLinkActive]="['router-link-active']">Basic Tables</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tables/smarttable" [routerLinkActive]="['router-link-active']">Smart Tables</a>
+                        </li>
+                        <li>
+                            <a routerLink="/tables/datatable" [routerLinkActive]="['router-link-active']">Data Tables</a>
+                        </li>
+                    </ul>
+                </li>
+                <li [class.active]="showMenu === 'widgets'">
+                    <a routerLink="/widgets" (click)="addExpandClass('widgets')" [routerLinkActive]="['router-link-active']">
+                        <i class="mdi mdi-widgets"></i>
+                        <span class="hide-menu">Widgets</span>
+                    </a>
+                </li>
+                <li class="nav-small-cap">Charts &amp; Icons</li>
+                <li [class.active]="showMenu === 'charts'">
+                    <a class="has-arrow" href="javascript:void(0)" aria-expanded="false" (click)="addExpandClass('charts')">
+                        <i class="mdi mdi-chart-arc"></i>
+                        <span class="hide-menu">Charts</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'charts'">
+                        <li>
+                            <a routerLink="/charts/chartjs" [routerLinkActive]="['router-link-active']">Chart Js</a>
+                        </li>
+                        <li>
+                            <a routerLink="/charts/chartistjs" [routerLinkActive]="['router-link-active']">Chartist Js</a>
+                        </li>
+                    </ul>
+                </li>
+                <li [class.active]="showMenu === 'icons'">
+                    <a class="has-arrow" href="javascript:void(0)" aria-expanded="false" (click)="addExpandClass('icons')">
+                        <i class="mdi mdi-brush"></i>
+                        <span class="hide-menu">Icons</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'icons'">
+                        <li>
+                            <a routerLink="/icons/fontawesome" [routerLinkActive]="['router-link-active']">Fontawesome</a>
+                        </li>
+                        <li>
+                            <a routerLink="/icons/simpleline" [routerLinkActive]="['router-link-active']">Simple Line Icons</a>
+                        </li>
+                        <li>
+                            <a routerLink="/icons/material" [routerLinkActive]="['router-link-active']">Material Icons</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-small-cap">Pages</li>
+                <li [class.active]="showMenu === 'auth'">
+                    <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('auth')">
+                        <i class="mdi mdi-lock"></i>
+                        <span class="hide-menu">Authentication</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'auth'">
+                        <li>
+                            <a routerLink="/authentication/login" [routerLinkActive]="['router-link-active']">Login</a>
+                        </li>
+                        <li>
+                            <a routerLink="/authentication/signup" [routerLinkActive]="['router-link-active']">Register</a>
+                        </li>
+                        <li>
+                            <a routerLink="/authentication/404" [routerLinkActive]="['router-link-active']">404</a>
+                        </li>
+                    </ul>
+                </li>
+                <li [class.active]="showMenu === 'sample-pages'">
+                    <a class="has-arrow" href="javascript:void(0)" (click)="addExpandClass('sample-pages')">
+                        <i class="mdi mdi-file"></i>
+                        <span class="hide-menu">Sample Pages</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'sample-pages'">
+                        <li>
+                            <a routerLink="/sample-pages/timeline" [routerLinkActive]="['router-link-active']">Timeline</a>
+                        </li>
+                        <li>
+                            <a routerLink="/sample-pages/profile" [routerLinkActive]="['router-link-active']">Profile</a>
+                        </li>
+                        <li>
+                            <a routerLink="/sample-pages/pricing" [routerLinkActive]="['router-link-active']">Pricing</a>
+                        </li>
+                        <li>
+                            <a routerLink="/sample-pages/invoice" [routerLinkActive]="['router-link-active']">Invoice</a>
+                        </li>
+                        <li>
+                            <a routerLink="/index" [routerLinkActive]="['router-link-active']">Starter Page</a>
+                        </li>
+                        <li>
+                            <a routerLink="/sample-pages/helperclasses" [routerLinkActive]="['router-link-active']">Helper Classes</a>
+                        </li>
+                    </ul>
+                </li>
+                <li [class.active]="showMenu === 'multilevel'">
+                    <a class="has-arrow waves-effect waves-dark" (click)="addExpandClass('multilevel')" aria-expanded="false">
+                        <i class="mdi mdi-arrange-send-backward"></i>
+                        <span class="hide-menu">Multi level dd</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'multilevel'">
+                        <li>
+                            <a href="#">item 1.1</a>
+                        </li>
+                        <li>
+                            <a href="#">item 1.2</a>
+                        </li>
+                        <li [class.active]="showSubMenu === 'multilevel2'">
+                            <a class="has-arrow" href="javascript:void(0)" (click)="addActiveClass('multilevel2')" aria-expanded="false">Menu 1.3</a>
+                            <ul aria-expanded="false" class="collapse" [class.in]="showSubMenu === 'multilevel2'">
+                                <li>
+                                    <a href="#">item 1.3.1</a>
+                                </li>
+                                <li>
+                                    <a href="#">item 1.3.2</a>
+                                </li>
+                                <li>
+                                    <a href="#">item 1.3.3</a>
+                                </li>
+                                <li>
+                                    <a href="#">item 1.3.4</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">item 1.4</a>
+                        </li>
+                    </ul>
+                </li> -->
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+    <!-- Bottom points-->
+    <!-- <div class="sidebar-footer"> -->
+        <!-- item-->
+        <!-- <a class="link" data-toggle="tooltip" title="Settings"> -->
+            <!-- <i class="ti-settings"></i> -->
+        <!-- </a> -->
+        <!-- item-->
+        <!-- <a class="link" data-toggle="tooltip" title="Email"> -->
+            <!-- <i class="mdi mdi-gmail"></i> -->
+        <!-- </a> -->
+        <!-- item-->
+        <!-- <a href="" class="link" data-toggle="tooltip" title="Logout"> -->
+            <!-- <i class="mdi mdi-power"></i> -->
+        <!-- </a> -->
+    <!-- </div> -->
+    <!-- End Bottom points -->
+</aside>

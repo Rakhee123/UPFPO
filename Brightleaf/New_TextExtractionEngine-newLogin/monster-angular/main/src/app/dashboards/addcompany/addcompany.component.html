@@ -1,0 +1,127 @@
+<div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center" *ngIf="company.companyId<=0">
+        <h3 class="text-themecolor m-b-0 m-t-0">Add New Company</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" tabindex="0" ng-reflect-router-link="/index">
+                <a routerLink="/dashboard/companylist">Company List</a></li>
+            <li class="breadcrumb-item active">Add Company</li>
+            <!---->
+        </ol>
+    </div>
+</div>
+
+<div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center" *ngIf="company.companyId>0">
+        <h3 class="text-themecolor m-b-0 m-t-0">Edit Company</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" tabindex="0" ng-reflect-router-link="/index">
+                <a routerLink="/dashboard/companylist">Company List</a></li>
+            <li class="breadcrumb-item active">Edit Company</li>
+            <!---->
+        </ol>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form (ngSubmit)="!AddCompanyForm.invalid" #AddCompanyForm="ngForm">
+            <div class="form-group">
+                <label for="companyName">Company Name</label>
+                <div class="input-group">
+                    <input type="text" #companyName="ngModel" [(ngModel)]="company.companyName"
+                        (focusout)="companyNameCheck(company.companyName)" placeholder="Enter company name"
+                        class="form-control" name="companyName" required="required" minlength="3" pattern=^$|^[A-Za-z0-9-_]+>
+                </div>
+                <div *ngIf="companyName.invalid && (companyName.dirty || companyName.touched)"
+                    class="errorMessage">
+                    <div *ngIf="companyName.errors.required"> Company name is required. </div>
+                    <div *ngIf="companyName.errors.minlength"> Company name must be at least 3 characters long.
+                    </div>
+                    <div *ngIf="companyName.errors.pattern"> Company name can only contain alphanumeric, dashes and underscores. </div>
+                    <div *ngIf="companyName.errors.forbiddenName"> Company name cannot be Bob. </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="companyAddress">Company Address</label>
+                <div class="input-group">
+                    <input id="companyAddress" type="text" class="form-control" placeholder="Enter company address"
+                        name="companyAddress" required minlength="5" forbiddenName="bob"
+                        [(ngModel)]="company.companyAddress" #companyAddress="ngModel">
+                </div>
+                <div *ngIf="companyAddress.invalid && (companyAddress.dirty || companyAddress.touched)"
+                    class="errorMessage">
+                    <div *ngIf="companyAddress.errors.required"> Company address is required. </div>
+                    <div *ngIf="companyAddress.errors.minlength"> Company address must be at least 5 characters
+                        long. </div>
+                    <div *ngIf="companyAddress.errors.forbiddenName"> Company address cannot be Bob. </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contactPerson">Contact Person</label>
+                <div class="input-group">
+                    <input id="contactPerson" type="text" class="form-control" placeholder="Enter contact person name"
+                        name="contactPerson" required minlength="5" forbiddenName="bob"
+                        [(ngModel)]="company.contactPerson" #companyPerson="ngModel" pattern=^$|^[A-Za-z-\s]+>
+                </div>
+                <div *ngIf="companyPerson.invalid && (companyPerson.dirty || companyPerson.touched)"
+                    class="errorMessage">
+                    <div *ngIf="companyPerson.errors.required"> Contact person is required. </div>
+                    <div *ngIf="companyPerson.errors.minlength"> Contact person must be at least 5 characters long.
+                    </div>
+                    <div *ngIf="companyPerson.errors.forbiddenName"> Contact person cannot be Bob. </div>
+                    <div *ngIf="companyPerson.errors.pattern"> Please enter character value only </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contactPhone">Contact Number</label>
+                <div class="input-group">
+                    <input id="contactPhone" type="text" name="contactPhone" class="form-control"
+                        placeholder="Enter contact number" required minlength="10" maxlength="10" forbiddenName="bob"
+                        [(ngModel)]="company.contactPhone" #companyPhone="ngModel" numbersOnly>
+
+                </div>
+                <div *ngIf="companyPhone.invalid && (companyPhone.dirty || companyPhone.touched)"
+                    class="errorMessage">
+                    <div *ngIf="companyPhone.errors.required"> Contact phone is required. </div>
+                    <div *ngIf="companyPhone.errors.minlength"> Contact phone must be at least 10 number long. </div>
+                    <div *ngIf="companyPhone.errors.forbiddenName"> Contact phone cannot be Bob. </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" name="mfa" [checked]="company.mfa? 1 : 0"
+                        class="custom-control-input" id="mfa" [(ngModel)]="company.mfa" #mfa="ngModel">
+                    <label class="custom-control-label" for="mfa">Multi factor Authentication</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                    <label for="numberOfQcLevels" class="control-label">QC Level</label>
+                    <div class="input-group">
+                       <select class="form-control custom-select" id="numberOfQcLevels" name="numberOfQcLevels" #numberOfQcLevels="ngModel" [(ngModel)]="company.numberOfQcLevels">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                       </select>
+                    </div>       
+            </div>
+            <div class="form-group">
+                <label for="outputdateFormat">Output Date Format</label>
+                <div class="input-group">
+                    <input id="outputdateFormat" type="text" class="form-control" placeholder="Enter output date format"
+                        name="outputdateFormat" minlength="8" forbiddenName="bob"
+                        [(ngModel)]="company.outputdateFormat" #outputDateFormat="ngModel">
+                </div>
+            </div>
+            <div>
+                <button type="submit" (click)="saveCompany()" class="btn btn-outline-dark mr-1"
+                    [disabled]="!AddCompanyForm.dirty || AddCompanyForm.invalid">Save</button>
+                <button type="reset" class="btn btn-outline-dark mr-1" [disabled]="!AddCompanyForm.dirty">Reset</button>
+                <button type="submit" routerLink="/dashboard/companylist" class="btn btn-outline-dark">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

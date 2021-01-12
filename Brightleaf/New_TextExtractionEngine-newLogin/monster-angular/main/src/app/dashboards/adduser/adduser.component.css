@@ -1,0 +1,27 @@
+.card .btn {
+  /* background-color: #bd2f1b;
+    color:#fff;
+    border-color: #bd2f1b; */
+  background-color: #17a2b8;
+  color: #fff;
+  border-color: #17a2b8;
+}
+
+.rowrem {
+  margin-left: 5.5rem;
+}
+
+.fombodr {
+  border: 1px solid black;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.dropdown-list{
+  position: initial;
+}
+
+.errorMessage{
+ color: rgb(243, 24, 24);
+ font-size: small;
+}

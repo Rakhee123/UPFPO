@@ -1,0 +1,147 @@
+<div class="row">
+  <div class="col-lg-12 card">
+    <form name="form" (ngSubmit)="f.form.valid && onDone(f)" #f="ngForm" novalidate>
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group row">
+            <label for="example-text-input" class="col-lg-2 col-form-label">Rule Set</label>
+            <div class="col-4">
+              <ng-multiselect-dropdown name="ruleset" [settings]="singledropdownSettings2" [data]="ruleset"
+                [(ngModel)]="singleselectedItems2" (onSelect)="onRuleSetSelect($event)"
+                (onDeSelect)="onRuleSetUnSelect($event)">
+              </ng-multiselect-dropdown>
+              <input class="form-control" type="hidden" [(ngModel)]="this.ruleSetId" name="ruleSetId"
+                #ruleSetId2="ngModel" [ngClass]="{ 'is-invalid': f.submitted && ruleSetId2.invalid }"
+                [required]="rulesetRequire">
+              <div *ngIf="f.submitted && ruleSetId2.invalid" class="invalid-feedback">
+                <div *ngIf="ruleSetId2.errors.required">Rule set name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 border border-dark">
+            <div class="card">
+              <div class="card-body">
+                <div class="form">
+                  <div class="form-group row">
+                    <label for="example-text-input" class="col-lg-2 col-form-label">Document-Type</label>
+                    <div class="col-md-4 col-6 align-self-center">
+                      <ng-multiselect-dropdown id="docType" name="docType" [data]="docType"
+                        [(ngModel)]="singleselectedItems" [settings]="singledropdownSettings"
+                        (onSelect)="onDocTypeSelect($event)" (onDeSelect)="onDocTypeUnselect($event)">
+                      </ng-multiselect-dropdown>
+                      <input class="form-control" type="hidden" [(ngModel)]="rule.documentTypeId" name="doccType"
+                        #doccType="ngModel" [ngClass]="{ 'is-invalid': f.submitted && doccType.invalid }"
+                        [required]="documentRequire">
+                      <div *ngIf="f.submitted && doccType.invalid" class="invalid-feedback">
+                        <div *ngIf="doccType.errors.required">Document Type is required</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row col-sm-16">
+                    <label for="example-text-input" class="col-lg-2 col-form-label">Attribute Name</label>
+                    <div class="col-md-4 col-6 align-self-center">
+                      <ng-multiselect-dropdown name="attribute" [settings]="singledropdownSettings1" [data]="attribute"
+                        [(ngModel)]="singleselectedItems1" (onSelect)="onAttributeSelect($event)"
+                        (onDeSelect)="onAttributeUnSelect($event)">
+                      </ng-multiselect-dropdown>
+                      <input class="form-control" type="hidden" [(ngModel)]="rule.attributeId" name="attributeId"
+                        #attributeId="ngModel" [ngClass]="{ 'is-invalid': f.submitted && attributeId.invalid }"
+                        [required]="attributeRequire">
+                      <div *ngIf="f.submitted && attributeId.invalid" class="invalid-feedback">
+                        <div *ngIf="attributeId.errors.required">Attribute Name is required</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="col-md-12 border border-dark">
+                        <div class="card">
+                          <div class="card-body" style="margin-bottom: 50%">
+                            <div class="table-responsive">
+                              <table class="table" id="myRuleTable">
+                                <thead>
+                                  <tr>
+                                    <th>Rule ID</th>
+                                    <th>Available Rules</th>
+                                    <th>select</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let rulet of ruleTable;let j=index;">
+                                    <td id="ruleIdd{{j}}">{{rulet.rule.ruleId}}</td>
+                                    <td id="ruleName{{j}}">
+                                      {{getFormatedRule(rulet.rule,rulet.docAndAttribute.attributeName)}}</td>
+                                    <td>
+                                      <button type="button" class="btn btn-success btn-sm" style="margin-left:20px;" id="check{{j}}" (click)="select(rulet.rule.ruleId,j)">
+                                        <i class="fa fa-arrow-right"></i>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="col-md-12 border border-dark">
+                        <div class="card">
+                          <div class="card-body" style="margin-bottom: 50%">
+                            <div class="table-responsive">
+                              <table class="table" id="myRuleTable2">
+                                <thead>
+                                  <tr>
+                                    <th>Priority</th>
+                                    <th>Rule ID</th>
+                                    <th>Selected Rules</th>
+                                    <th>Delete</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <ng-container *ngFor="let rulet2 of ruleTable2;let k=index;">
+                                    <tr id="dbRule{{rulet2.rule.ruleId}}">
+                                      <td><input type="number" min="1" id="priorId{{rulet2.rule.ruleId}}" style="width: 35px;"></td>
+                                      <td>{{rulet2.rule.ruleId}}</td>
+                                      <td id="ruleName{{k}}">
+                                        {{getFormatedRule(rulet2.rule,rulet2.docAndAttribute.attributeName)}}</td>
+                                      <td>
+                                        <button *ngIf="doneCancelButton" type="button" class="btn"
+                                          id="check2{{rulet2.rule.ruleId}} " (click)="remove2(rulet2.rule.ruleId,k)">
+                                          <i class="ti-trash text-danger m-r-3"></i>
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  </ng-container>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions text-center">
+            <div class="card-body">
+              <div class="form-group">
+                <button *ngIf="doneCancelButton" type="submit" id="saveUpdateButton"
+                  class="btn btn-success m-r-40">Submit</button>
+                <button *ngIf="doneCancelButton" type="reset" (click)="resetOnCancel()"
+                  class="btn btn-dark">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

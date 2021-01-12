@@ -1,0 +1,13 @@
+.card .btn {
+  /* background-color: #bd2f1b;
+    color:#fff;
+    border-color: #bd2f1b; */
+  background-color: #17a2b8;
+  color: #fff;
+  border-color: #17a2b8;
+}
+
+.errorMessage{
+ color: rgb(243, 24, 24);
+ font-size: small;
+}

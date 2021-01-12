@@ -1,0 +1,89 @@
+<div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+        <h3 class="text-themecolor m-b-0 m-t-0">User list of company '{{companyName}}'</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" tabindex="0" ng-reflect-router-link="/index">
+                <a routerLink="/dashboard/companylist">Company List</a></li>
+            <li class="breadcrumb-item active">User List</li>
+            <!---->
+        </ol>
+    </div>
+</div>
+<div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+    </div>
+    <div class="col-md-6 col-4 align-self-center">
+        <button class="btn pull-right hidden-sm-down btn-info" *ngIf="this.checkPermissionService.showAddUserButton && this.checkPermissionService.managePermission" type="button"
+            (click)="AddNewUser(companyId,companyName)">
+            <i class="mdi mdi-plus-circle"></i> Add User</button>
+    </div>
+</div>
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">User List </h4>
+                <!-- <h6 class="card-subtitle">Create responsive tables by wrapping any
+                      <code>.table</code> in
+                      <code>.table-responsive </code>
+                  </h6> -->
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>Email address</th>
+                                <th>Contact Person</th>
+                                <th>Contact Number</th>
+                                <th>Creation date</th>
+                                <th>Modify date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td> {{user.userName}}</td>
+                                <td> {{user.firstName}} {{user.lastName}}</td>
+                                <td> {{user.userTelephone}}</td>
+                                <td> {{user.creationDate | date}}</td>
+                                <td>
+                                    {{user.lastModifiedDate | date}}
+                                </td>
+                                <td>
+                                    Active
+                                    <!-- {{user.mfa==1 ? 'Active' : 'Inactive' }} -->
+                                </td>
+                                <!-- <td ng-if="company.MFA">Yes</td>
+                                  <td ng-if="!company.MFA">NO</td>
+                                <td> {{company.numberOfQcLevels}}</td>
+                                <td> {{company.companyStatus==1 ? 'Active' : 'Inactive' }}</td> -->
+                                <td>
+
+                                    <!-- <button (click)="onConfigConfirm(user.userId)"
+                                        class="btn btn-sm btn-info btn-circle" type="button"><i
+                                            class="fa fa-cog"></i></button> -->
+                                    <button class="btn btn-md" *ngIf="sessionUserName!=user.userName && this.checkPermissionService.showUpdateUserButton && this.checkPermissionService.managePermission"
+                                        (click)=" onUpdateConfirm(companyId,companyName,user.userId)" type="button"  placement="top" [ngbTooltip]="htmlContent1"><i
+                                            class="ti-pencil text-success"></i>
+                                            <ng-template #htmlContent1>
+                                                    <p>Edit</p>
+                                                </ng-template>
+                                        </button>
+                                    <button *ngIf="sessionUserName!=user.userName"  class="btn btn-md"
+                                        (click)="onDeleteUser(companyId,user.userId,user.userName)"  placement="top" [ngbTooltip]="htmlContent2"><i
+                                            class="ti-trash text-danger"></i>
+                                            <ng-template #htmlContent2>
+                                                    <p>Delete</p>
+                                                </ng-template>
+                                        </button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

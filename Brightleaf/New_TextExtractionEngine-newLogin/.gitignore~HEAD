@@ -1,0 +1,13 @@
+	BasicDBObject query1 = new BasicDBObject();
+										query1.put("Attributes", att);
+										query1.put("DocumentName", documentName);
+		
+										BasicDBObject data1 = new BasicDBObject();
+										data1.put("Attributes.$.QC" + qCLevel + ".InitialValue", initialValue);
+										data1.put("Attributes.$.QC" + qCLevel + ".NewValue", newValue);
+										data1.put("Attributes.$.QC" + qCLevel + ".ValueChanged", initialValue.contentEquals(newValue) ? "No" : "Yes");
+		
+										BasicDBObject command1 = new BasicDBObject();
+										command1.put("$set", data1);
+		
+										collection.updateOne(query1, command1);

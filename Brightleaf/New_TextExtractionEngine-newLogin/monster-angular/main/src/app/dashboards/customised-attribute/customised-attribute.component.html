@@ -1,0 +1,25 @@
+<button class="btn btn-light" (click)="openCustomAttribute(customAttribute)" [value]="selectedAttributeId"
+  *ngIf="disableCustomizeButton"><i class="fa fa-gear m-r-10" style="color: rgb(26, 119, 206)"></i>Customize</button>
+
+<ng-template #customAttribute let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Customize Attributes</h4>
+    <button type="button" class="close" aria-label="Close" (click)="customizeSubmit()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="table table-responsive smart-table scroll">      
+        <ng2-smart-table [settings]="settings" [source]="customSource" class=""
+          (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+          (createConfirm)="onCreateConfirm($event,selectedAttributeId)">
+        </ng2-smart-table>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-info" (click)="customizeSubmit()">Ok</button>
+  </div>
+</ng-template>

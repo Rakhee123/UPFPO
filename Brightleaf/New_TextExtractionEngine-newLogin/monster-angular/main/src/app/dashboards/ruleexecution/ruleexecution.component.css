@@ -1,0 +1,53 @@
+.disabled {
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: underline;
+}
+.btnConfig{
+    border-color: #fff;
+    text-decoration-color: black;
+    background-color: #fff;
+    border-block-end-color: #fff;
+    fill: #fff;
+  }
+ 
+  .modal-header {
+    background-color: #17a2b8;
+    /* background-color: #bd2f1b; */
+  }
+  
+  .modal-header .modal-title {
+    color: #fff;
+  }
+  
+  .modal-footer .btn {
+    /* background-color: #bd2f1b;
+      color:#fff;
+      border-color: #bd2f1b; */
+    background-color: #17a2b8;
+    color: #fff;
+    border-color: #17a2b8;
+  }
+    
+  .modal-content {
+    border: 1px solid #117a8b;
+  }
+
+.custom-radio{
+  display: inline;
+  margin-left: 3rem;
+}
+
+#tranIdcs{
+  border-bottom: 1px solid #10707f;
+  cursor:pointer;
+}
+
+.executionBrowse{
+  background-color: rgb(231, 243, 245);
+}
+
+.errorMessage{
+  color: rgb(243, 24, 24);
+  font-size: small;
+ }

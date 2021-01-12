@@ -1,0 +1,296 @@
+<div class="row">
+  <div class="col-12" style="margin-bottom: -1em;">
+    <div class="card">
+      <div class="card-body">
+
+          <div class="row">
+
+            <div class="col-md-8">
+              <h4 class="card-title" style="color:coral">Transaction details for {{transactionId}} </h4>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <button verifyTrxButton displayValue="none" type="submit" class="btn btn-success btn-xs pull-right" id="btnVrifyAll"
+                  (click)="verifyAllDocs()"><i class="fa fa-check"></i>Verify transaction</button>
+              </div>
+            </div>
+
+          </div>
+      
+        
+        <h4 class="card-title">Attribute data </h4>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-success  btn-xs" data-toggle="modal"
+            data-target="#modalForAddAttribute"><i class="fa fa-plus"></i> Add attribute</button>
+        </div>
+        <div class="table-responsive">
+          <table class="table" id="myTable">
+            <thead>
+              <tr style="font-size: 14px;">
+                <th>Attribute name </th>
+                <th>Attribute value </th>
+                <th style="width: 90px;">Status</th>
+                <th>Document name </th>
+                <th>Page no.</th>
+                <!-- <th>Line No.</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let c1 of consol; let i=index;">
+                <tr *ngFor="let a1 of c1.attributes;let j=index;">
+                  <td id="attributeName{{i}}{{j}}" style="border-bottom:1px solid black;">{{a1.attributeName}}</td>
+                  <input id="appliedRule{{i}}{{j}}" type="hidden" value="{{a1.appliedRule}}">
+                  <td style="border-bottom:1px solid black;">           
+               
+                    <div *ngIf="a1.customList[0].customizeList==undefined then thenBlockTextArea else elseBlockDropDown" class="form-group" style="margin-top: 1em;margin-left: 0em;"> </div>
+                      <ng-template #thenBlockTextArea>
+                          <textarea #textAreaTemp id="myTextArea{{i}}{{j}}" style="border: none" class="common-font-setting"
+                            (click)="setTextArea(textAreaTemp.id)" (focusout)="onBlurMethod(textAreaTemp.id)"
+                            (change)="upadteQCLevel(i+''+j)">{{getInitialValue(a1)}}</textarea>
+                          <textarea id="myTextAreaHidden{{i}}{{j}}"
+                            style="display: none;">{{getInitialValue(a1)}}</textarea>
+                          <!-- {{data.attributes.applicationExtractedValue.initialValue}} -->
+                     </ng-template>
+
+                     <ng-template #elseBlockDropDown>
+                      <div *ngIf="a1.customDefaultValue=='-' then defaltBlock else dropdownBlock"></div>
+                     
+                      <ng-template #defaltBlock>
+                          <div class="form-group">
+                              <select class="form-control" id="customizeList{{i}}{{j}}" (change)="changeCustemValue(i+''+j)">
+                                 <option *ngFor="let customObj of a1.customList[0].customizeList" attr.value="{{customObj.value}}" [attr.selected]="(customObj.defaultValue==true ? true : null)" >{{customObj.value}}</option>                           
+                             </select>
+                             </div>
+                             <textarea id="myTextAreaHidden{{i}}{{j}}"
+                             style="display: none;">{{getInitialValue(a1)}}</textarea>
+                      </ng-template>
+
+                      <ng-template #dropdownBlock>
+                          <div class="form-group">
+                              <select class="form-control" id="customizeList{{i}}{{j}}" (change)="changeCustemValue(i+''+j)">
+                                 <option *ngFor="let customObj of a1.customList[0].customizeList" attr.value="{{customObj.value}}" [attr.selected]="(getInitialValue(a1)==customObj.value ? true : null)" >{{customObj.value}}</option>                           
+                             </select>
+                             </div>
+                             <textarea id="myTextAreaHidden{{i}}{{j}}"
+                             style="display: none;">{{getInitialValue(a1)}}</textarea>
+                      </ng-template>
+  
+                     </ng-template>
+                   
+
+                    <div class="form-group" style="margin-top: 1em;margin-left: 0em;">
+                      <button type="button" class="btn btn-success  btn-xs" data-toggle="modal" data-target="#myModalForAddValue"
+                        (click)="clearAttributeData(a1.attributeName)"><i class="fa fa-plus"></i> Add value</button>
+                    </div>
+                    <div class="form-group" style="margin-top: -1em;">
+                      <button type="button" class="btn btn-default gray  btn-xs" style="border-color: #ccc;" data-toggle="modal" data-target="#modalForViewRuleSet" (click)="viewRuleSet(a1.appliedRule,a1.attributeName)"><i class="fa fa-code"></i> View
+                        ruleset</button>
+                    </div>
+                    <div class="form-group" style="margin-top: -1em;">
+                      <input   [disabled]="(a1.qcValidation | ignoreResultConsolidatedPipe : i+''+j : 'disable')"  [checked]="(a1.qcValidation | ignoreResultConsolidateCheckdPipe : i+''+j : 'checked')" type="checkbox" id="ignoreResult{{i}}{{j}}" (click)="ignoreResult(i+''+j)" /> {{message}}<span class="common-font-setting">Ignore this result</span>
+                      <!-- attr.data-my="{{a1.qcValidation | ignoreResultConsolidatedPipe : i+''+j}}" -->
+                    </div>
+                
+          
+                  </td>
+                  <div *ngIf="callFunction(a1)=='UNVERIFIED'; then thenBlock else elseBlock"></div>
+                  <ng-template #thenBlock>
+                    <td style="border-bottom:1px solid black;">
+                      <!-- <div id="stausDiv1"> -->
+                        <span class="verifyDone" id="verifyDone{{i}}{{j}}" style="color:red">Pending verification</span>
+                        <div class="form-group" style="margin-top: 0em;margin-left: 0em;">
+                          <button id="btnVrify{{i}}{{j}}" type="submit" class="btn btn-success  btn-xs btnVrify"
+                            (click)="verifyAttribute(i+''+j)"><i class="fa fa-check"></i> Verify</button>
+                        </div>
+                    </td>
+                  </ng-template>
+
+                  <ng-template #elseBlock>
+                    <td style="border-bottom:1px solid black;">
+                      <span id="verifyDone{{i}}{{j}}" style="color:green">Verified</span>
+                      <button style="display: none;" id="btnVrify{{i}}{{j}}" type="submit"
+                        class="btn btn-success  btn-xs btnVrify" (click)="verifyAttribute(i+''+j)"><i
+                          class="fa fa-check"></i> Verify</button>
+                    </td>
+                  </ng-template>
+
+                  <td id="docName{{i}}{{j}}" style="border-bottom:1px solid black;">{{c1.documentName}}</td>
+                  <div *ngIf="a1.pageNumber==-1; then thenignorePNumBlock else elsePNumBlock"></div>
+                        <ng-template #thenignorePNumBlock>
+                          <td style="border-bottom:1px solid black;">
+                            <p></p>
+                            <input type="hidden" id="pageNumber{{i}}{{j}}" value="{{a1.pageNumber}}" />
+                          </td>
+                        </ng-template>
+                        <ng-template #elsePNumBlock>
+                          <td style="border-bottom:1px solid black;">
+                            <p>{{a1.pageNumber}}</p>
+                            <input type="hidden" id="pageNumber{{i}}{{j}}" value="{{a1.pageNumber}}" />
+                          </td>
+                        </ng-template>
+                  <!-- <td id="pageNumber{{i}}{{j}}" style="border-bottom:1px solid black;">{{a1.pageNumber}}</td>-->
+                  <!-- <td style="border-bottom:1px solid black;"></td> -->
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- model section -->
+<!-- The Modal for  -->
+<div class="modal fade" id="myModalForAddValue">
+  <form name="form" (ngSubmit)="f.form.valid && addValue(f)" #f="ngForm" novalidate>
+    <div class="modal-dialog modal-lg modal-dialog-centered add-attribute-media-query">
+
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" style="color:#e9b403;">Add Attribute Value</h4>
+          <!-- <button type="reset" class="close" data-dismiss="modal">&times;</button> -->
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-4 col-form-label">Attribute Name:</label>
+            <div class="col-sm-8">
+              <label id="attributeNameForAddValue" for="inputPassword" class="col-sm-4 col-form-label">payer1</label>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-4 col-form-label required">Attribute value:</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" placeholder="Attribute value" name="attributeValue"
+                [(ngModel)]="attributeData.attributeValue" #attributeValue="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && attributeValue.invalid }" required />
+              <div *ngIf="f.submitted && attributeValue.invalid" class="invalid-feedback">
+                <div *ngIf="attributeValue.errors.required">Attribute value is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-4 col-form-label required">Document Name:</label>
+            <div class="col-sm-7">
+                <ng-multiselect-dropdown id="dataForCon" name="dataForCon" [data]="docList"  (onSelect)="onDocTypeSelectForAddValue($event)"  [(ngModel)]="singleselectedItems2"
+                [settings]="singledropdownSettings" >
+              </ng-multiselect-dropdown>
+                <div *ngIf="documentNameValid" style="color: red;font-size:12px">Document Name is required</div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="reset" class="btn btn-secondary" data-dismiss="modal" (click)="resetFormDataForAddValue(f)">Close</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<!-- The Modal for add attribute -->
+<div class="modal fade" id="modalForAddAttribute">
+  <form name="form" (ngSubmit)="f2.form.valid && addAttribute(f2)" #f2="ngForm" novalidate>
+    <div class="modal-dialog modal-lg modal-dialog-centered add-value-media-query">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" style="color:#e9b403;">Add attribute</h4>
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-4 col-form-label required">Attribute Name:</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" placeholder="Attribute Name" name="attributeName"
+                [(ngModel)]="attributeData.attributeName" #attributeName="ngModel"
+                [ngClass]="{ 'is-invalid': f2.submitted && attributeName.invalid }"  required />
+              <div *ngIf="f2.submitted && attributeName.invalid" class="invalid-feedback">
+                <div *ngIf="attributeName.errors.required">Attribute name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-4 col-form-label required">Attribute value: </label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" placeholder="Attribute value" name="attributeValue"
+                [(ngModel)]="attributeData.attributeValue" #attributeValue="ngModel"
+                [ngClass]="{ 'is-invalid': f2.submitted && attributeValue.invalid }" required />
+              <div *ngIf="f2.submitted && attributeValue.invalid" class="invalid-feedback">
+                <div *ngIf="attributeValue.errors.required">Attribute value is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-4 col-form-label required">Document Name:</label>
+            <div class="col-sm-7">
+                <ng-multiselect-dropdown id="dataForCon" name="dataForCon" [data]="docList"  (onSelect)="onDocTypeSelectForAttribute($event)"  [(ngModel)]="singleselectedItems1"
+                [settings]="singledropdownSettings" >
+              </ng-multiselect-dropdown>
+                <div *ngIf="documentNameValid" style="color: red;font-size:12px">Document Name is required</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="reset" class="btn btn-secondary" data-dismiss="modal" (click)="resetFormDataForAttribute(f2)">Close</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<!-- The Modal for view ruleset -->
+<div class="modal fade" id="modalForViewRuleSet">
+    <div class="modal-dialog modal-lg modal-dialog-centered add-value-media-query">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" style="color:#e9b403;">View Ruleset</h4>
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                    <div class="col-md-3">Merge:<i [ngStyle]="{'color':merge? 'green' : 'red'}" class="fa " [ngClass]="{'fa-check':merge, 'fa-remove':!merge}"></i></div>
+                    <div class="col-md-3">Ignore case:<i [ngStyle]="{'color':isIgnore? 'green' : 'red'}" class="fa " [ngClass]="{'fa-check':isIgnore, 'fa-remove':!isIgnore}"></i></div>
+                    <div class="col-md-6">Fallback value: {{fallbackValue}}</div>
+                    </div>
+                </div>
+            </div>
+            <br> <div style="border-top: 1px solid #ddd;"></div>   <br> 
+          <div class="row">
+         
+            <div class="col-md-12">   <p #ViewRuleSetContentTemp></p></div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <!-- <button type="submit" class="btn btn-success">Save</button> -->
+          <button  class="btn btn-secondary" data-dismiss="modal" >Close</button>
+        </div>
+      </div>
+    </div>
+ 
+</div>

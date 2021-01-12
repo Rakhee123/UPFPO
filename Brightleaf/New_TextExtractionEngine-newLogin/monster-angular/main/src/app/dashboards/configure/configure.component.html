@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Document Type List</h4>
+        <div class="table table-responsive smart-table">
+          <br>
+          <input #search class="search form-control m-l-16 m-r-16" type="text" placeholder="Search..."
+            (keyup)="onSearch(search.value)">
+          <ng2-smart-table [settings]="settings" [source]="source" class="" (deleteConfirm)="onDeleteConfirm($event)"
+            (editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)">
+          </ng2-smart-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

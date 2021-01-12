@@ -1,0 +1,59 @@
+[
+	{
+	      "documentName":"01_NDA_Micro-Acme Group.pdf",
+	      "companyId":12,
+	      "attributes":[
+	         {
+	            "attributeName":"Governing Law",
+	            "appliedRule":12,
+	            "extractedSentence":"This Agreement shall be governed by and construed in accordance with the laws of United States. ",
+	            "extractedChunk":" by and construed in accordance with the laws of United States.",
+	            "applicationExtractedValue":{
+	               "initialValue":"United States"
+	            }
+	         },
+	         {
+	            "attributeName":"Governing Law",
+	            "appliedRule":12,
+	            "extractedSentence":"This Agreement shall be governed by and construed in accordance with the laws of United States--01. ",
+	            "extractedChunk":" by and construed in accordance with the laws of United States.",
+	            "applicationExtractedValue":{
+	               "initialValue":"United States--01",
+	            }
+	         },
+	         {
+	            "attributeName":"Party 1",
+	            "appliedRule":16,
+	            "extractedSentence":"TATA is the party 1",
+	            "extractedChunk":" TATA is the name of the company",
+	            "applicationExtractedValue":{
+	               "initialValue":"TATA--01"
+	            }
+	         }
+	      ]
+	},
+	{
+	      "documentName":"02_NDA_Disc3_Neuro Tech.pdf",
+	      "companyId":12,
+	      "attributes":[
+	         {
+	            "attributeName":"Governing Law",
+	            "appliedRule":12,
+	            "extractedSentence":"This Agreement shall be governed by and construed in accordance with the laws of United States--01. ",
+	            "extractedChunk":" by and construed in accordance with the laws of United States.",
+	            "applicationExtractedValue":{
+	               "initialValue":"United States--02"
+	            }
+	         },
+	         {
+	            "attributeName":"Party 1",
+	            "appliedRule":16,
+	            "extractedSentence":"TATA is the party 1",
+	            "extractedChunk":" TATA is the name of the company",
+	            "applicationExtractedValue":{
+	               "initialValue":"TATA--02"
+	            }
+	         }
+	      ]
+	}
+]

@@ -1,0 +1,314 @@
+<div class="row page-titles">
+        <div class="col-md-6 col-8 align-self-center">
+            <button class="btn pull-left hidden-sm-down btn-info" type="button" (click)="openChangePasswordPopup(changePassword)">
+                <i class="icon-lock-open"></i> Change Password</button>
+        </div>
+        <!-- <div class="col-md-6 col-8 align-self-center">
+                <button class="btn pull-right hidden-sm-down btn-info" type="button" (click)="editProfile()">
+                    <i class="mdi mdi-pencil"></i> Edit Profile</button>
+        </div> -->
+</div>
+<div class="row">
+    <div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <ngb-tabset type="pills" [orientation]="currentOrientation">
+                <ngb-tab title="Personal Details" *ngIf="hidePersonalDetail">
+                    <ng-template ngbTabContent>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form class="form" *ngFor="let user of userinfo">
+
+                                            <div class="form-group m-t-40 row">
+                                                <label for="example-text-input" class="col-3 col-form-label">First
+                                                    Name : </label>
+                                                <div class="col-9">
+                                                        <label class="col-form-label" 
+                                                        id="example-search-input">{{user.userInfo.firstName}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-search-input" class="col-3 col-form-label">Middle
+                                                    Name : </label>
+                                                <div class="col-9">
+                                                    <label class="col-form-label" 
+                                                        id="example-search-input">{{user.userInfo.middleName}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-email-input" class="col-3 col-form-label">Last
+                                                    Name : </label>
+                                                <div class="col-9">
+                                                        <label class="col-form-label" 
+                                                        id="example-search-input">{{user.userInfo.lastName}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-url-input"
+                                                    class="col-3 col-form-label">Gender : </label>
+                                                <div class="col-9">
+                                                        <label class="col-form-label" 
+                                                        id="example-search-input">{{user.userInfo.gender}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-tel-input" class="col-3 col-form-label">Contact
+                                                    Number : </label>
+                                                <div class="col-9">
+                                                        <label class="col-form-label" 
+                                                        id="example-search-input">{{user.userInfo.userTelephone}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="example-password-input" class="col-3 col-form-label">User
+                                                    Address : </label>
+                                                <div class="col-9">
+                                                        <label class="col-form-label" 
+                                                        id="example-search-input">{{user.userInfo.userAddress}}</label>
+                                                </div>
+                                            </div>
+                                            <button type="button" (click)="editProfile()" class="btn btn-info btn-outline-dark"
+                                            >Edit</button>
+                                            <button type="submit" (click)="cancelEditProfile()" class="btn btn-outline-dark btn-danger"
+                                            >Cancel</button>
+                                        </form>
+                                    </div>
+
+                                    <div class="card-body" style="border: 1px dashed;">
+                                        <h4 class="card-title" style=" border-bottom: 1px solid gray;
+                                padding-bottom: 10px;">User Associated With Other Companies </h4>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Associated Company</th>
+                                                        <th>Role</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let com of company">
+                                                        <td *ngIf="SessionCompanyName!=com.company.companyName">
+                                                            {{com.company.companyName}}</td>
+                                                        <td *ngIf="SessionCompanyName!=com.company.companyName">
+                                                            {{com.role.roleName}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+
+
+                <ngb-tab title="Personal Details" *ngIf="showEditProfilePage">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form" (ngSubmit)="!EditProfileForm.invalid" #EditProfileForm="ngForm" *ngFor="let user of userinfo">
+                                                <div class="form-group m-t-40 row">
+                                                    <label for="example-text-input" class="col-3 col-form-label">First
+                                                        Name : </label>
+                                                    <div class="col-9">
+                                                        <input class="form-control" type="text" [(ngModel)]="user.userInfo.firstName" #firstName="ngModel"
+                                                            value={{user.userInfo.firstName}} id="example-text-input" name="firstName">
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-group row">
+                                                    <label for="example-search-input" class="col-3 col-form-label">Middle
+                                                        Name : </label>
+                                                    <div class="col-9">
+                                                        <input class="form-control" type="text" [(ngModel)]="user.userInfo.middleName" #middleName="ngModel"
+                                                            value={{user.userInfo.middleName}} id="example-search-input" name="middleName"
+                                                            >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="example-email-input" class="col-3 col-form-label">Last
+                                                        Name : </label>
+                                                    <div class="col-9">
+                                                        <input class="form-control" type="text" [(ngModel)]="user.userInfo.lastName" #lastName="ngModel"
+                                                            value={{user.userInfo.lastName}} id="example-email-input" name="lastName"
+                                                            >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="example-url-input"
+                                                        class="col-3 col-form-label">Gender : </label>
+                                                        <div class="col-9">
+                                                            <select class="form-control custom-select" id="gender" name="gender" [(ngModel)]="user.userInfo.gender" #gender="ngModel">
+                                                                <option *ngFor="let gender of genderValues" [ngValue]="gender.name">{{gender.name}}</option>
+                                                            </select>
+                                                        </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="example-tel-input" class="col-3 col-form-label">Contact
+                                                        Number : </label>
+                                                    <div class="col-9">
+                                                        <input class="form-control" type="text" [(ngModel)]="user.userInfo.userTelephone" #userTelephone="ngModel"
+                                                             id="example-tel-input" name="userTelephone" maxlength="10"
+                                                            >
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="example-password-input" class="col-3 col-form-label">User
+                                                        Address : </label>
+                                                    <div class="col-9">
+                                                        <input class="form-control" type="text" [(ngModel)]="user.userInfo.userAddress" #userAddress="ngModel"
+                                                            value={{user.userInfo.userAddress}} id="example-password-input" name="userAddress"
+                                                            >
+                                                    </div>
+                                                </div>
+                                                <button type="button" (click)="updateUserProfile(EditProfileForm)" class="btn btn-info btn-outline-dark"
+                                                    [disabled]="EditProfileForm.invalid">Save</button>
+                                                    <button type="submit" (click)="cancelEditProfile()" class="btn btn-outline-dark btn-danger"
+                                                    >Cancel</button>
+                                            </form>
+                                        </div>
+    
+                                        <div class="card-body" style="border: 1px dashed;">
+                                            <h4 class="card-title" style=" border-bottom: 1px solid gray;
+                                    padding-bottom: 10px;">User Associated With Other Companies </h4>
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Associated Company</th>
+                                                            <th>Role</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let com of company">
+                                                            <td *ngIf="SessionCompanyName!=com.company.companyName">
+                                                                {{com.company.companyName}}</td>
+                                                            <td *ngIf="SessionCompanyName!=com.company.companyName">
+                                                                {{com.role.roleName}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+
+
+                <ngb-tab title="User Company Profile">
+                    <ng-template ngbTabContent *ngFor="let user of userinfo">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <label for="example-search-input" class="col-3 col-form-label">User
+                                                Email : </label>
+                                            <div class="col-9">
+                                                <label class="col-form-label" 
+                                                     id="example-search-input">{{user.userInfo.userName}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-number-input" class="col-3 col-form-label">
+                                                Company Name : </label>
+                                            <div class="col-9">
+                                                    <label class="col-form-label" 
+                                                    id="example-search-input">{{user.company.companyName}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-number-input" class="col-3 col-form-label">Company
+                                                Address : </label>
+                                            <div class="col-9">
+                                                    <label class="col-form-label" 
+                                                    id="example-search-input">{{user.company.companyAddress}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="example-datetime-local-input"
+                                                class="col-3 col-form-label">User Role : </label>
+                                            <div class="col-9">
+                                                <label class="col-form-label" 
+                                                id="example-search-input">{{user.role.roleName}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                                <label for="example-datetime-local-input"
+                                                    class="col-3 col-form-label">User Permission : </label>
+                                                <div class="col-9">
+                                                        <label class="col-form-label" 
+                                                        id="example-search-input">{{assignPermission}}</label>
+                                                    <!-- <textarea style="height:6.5rem" class="form-control" type="text" value={{assignPermission}}
+                                                        id="example-datetime-local-input" disabled>
+                                                    </textarea> -->
+                                                </div>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+    </div>
+</div>
+</div>
+
+<ng-template #changePassword let-modal>
+    <form (ngSubmit)="!changePasswordForm.invalid" #changePasswordForm="ngForm">
+        <div class="modal-header">
+            <h4 class="modal-title">Change Password</h4>
+            <button type="button" class="close" aria-label="Close" (click)="onPopupClose(changePasswordForm,changePassword)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <ngb-alert class="alert alert-danger" *ngIf='errmessage' [dismissible]="false">
+                {{ message }}
+              </ngb-alert>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <small class="form-control-feedback">To change your password, enter current and new password.</small>
+                    
+                    <div class="form-group row">
+                        <label for="example-search-input" class="col-4 col-form-label">Current Password</label>
+                        <div class="col-8">
+                            <input class="form-control" type="password" [(ngModel)]="loginCurntPassword" (focusout)="checkCurrentPassword()" class="form-control" placeholder="Enter current password"
+                            name="loginCurntPassword" required minlength="4">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-search-input" class="col-4 col-form-label">New Password</label>
+                        <div class="col-8">
+                                <input id="newPassword" [(ngModel)]="newPassword" type="password" class="form-control" placeholder="Enter new password"
+                                name="newPassword" required minlength="4">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-search-input" class="col-4 col-form-label">Confirm Password</label>
+                        <div class="col-8">
+                                <input id="confirmPassword" [(ngModel)]="confirmPassword" type="password" class="form-control" placeholder="Enter confirm password"
+                                name="confirmPassword" required minlength="4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-inverse" [disabled]="changePasswordForm.invalid"
+                (click)="saveChangePassword(changePasswordForm)">Change Password</button>
+        </div>
+    </form>
+    <!-- {{companyName}}-->
+        <!-- {{changePasswordForm.value | json}}  -->
+</ng-template>

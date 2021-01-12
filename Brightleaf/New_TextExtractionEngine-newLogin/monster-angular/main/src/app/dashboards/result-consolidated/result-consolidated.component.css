@@ -1,0 +1,17 @@
+label.required::after {
+    content: "*";
+    color: red;
+}
+
+@media screen and (min-width: 768px) {
+    .add-value-media-query,.add-attribute-media-query {
+      width: 600px; /* New width for default modal */
+    }
+}
+
+.common-font-setting{
+  font-family:"Rubik", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+
+}

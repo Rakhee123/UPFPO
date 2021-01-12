@@ -1,0 +1,136 @@
+<div class="row page-titles">
+    <div class="col-md-6 col-8 align-self-center">
+        <button (click)="openSwitchCompany(company1)" *ngIf='showSwitchButtn'
+            class="btn pull-left hidden-sm-down btn-success">
+            <i class="fa fa-exchange"></i> Switch Company</button>
+    </div>
+    <div class="col-md-6 col-8 align-self-center">
+        <button class="btn pull-right hidden-sm-down btn-info" *ngIf='showAddCompanyButtn' type="button"
+            (click)="AddNewCompany()">
+            <i class="mdi mdi-plus-circle"></i> Add Company</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Registered Companies </h4>
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Address</th>
+                                <th>Contact Person</th>
+                                <th>Contact Number</th>
+                                <th>MFA</th>
+                                <th>Qc Levels</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let company of companies">
+                                <td> {{company.companyName}}</td>
+                                <td> {{company.companyAddress}}</td>
+                                <td> {{company.contactPerson}}</td>
+                                <td> {{company.contactPhone}}</td>
+                                <td>
+                                    {{company.mfa ==1 ? 'Active' : 'Inactive' }}
+                                </td>
+                                <td> {{company.numberOfQcLevels}}</td>
+                                <td> {{company.companyStatus==1 ? 'Active' : 'Inactive' }}</td>
+                                <td>
+                                    <button (click)="onConfigConfirm(company.companyId,company.companyName)" *ngIf="this.showUserListButton"
+                                        class="btn btn-md" style="margin-left: -18%;" type="button"
+                                        placement="top" [ngbTooltip]="htmlContent"><i class="fa fa-cog" style="color: rgb(26, 119, 206)"></i>
+                                        <ng-template #htmlContent>
+                                            <p>Configure</p>
+                                        </ng-template>
+                                    </button>
+                                    <button class="btn btn-md" style="margin-left: -14%;" *ngIf="this.showUpdateCompanyButton && SessionCompanyName!=company.companyName"
+                                        (click)=" onUpdateConfirm(company.companyId)" type="button" placement="top"
+                                        [ngbTooltip]="htmlContent1"><i class="ti-pencil text-success"></i>
+                                        <ng-template #htmlContent1>
+                                            <p>Edit</p>
+                                        </ng-template>
+                                    </button>
+                                    <button *ngIf="SessionCompanyName!=company.companyName && showDeleteCompanyButtn"
+                                        class="btn btn-md" style="margin-left: -10%;"
+                                        (click)="onDeleteCompany(company.companyId,company.companyName)" placement="top"
+                                        [ngbTooltip]="htmlContent2"><i class="ti-trash text-danger"></i>
+                                        <ng-template #htmlContent2>
+                                            <p>Delete</p>
+                                        </ng-template>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #company1 let-modal>
+    <form (ngSubmit)="!selectCompanyForm.invalid" #selectCompanyForm="ngForm">
+        <div class="modal-header">
+            <h4 class="modal-title">Select Company</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closePopup(selectCompanyForm,company1)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group has-success">
+                        <label class="control-label">Company</label>
+
+                        <ng-multiselect-dropdown [placeholder]="'Select Company'" id="companyInfo" name="companyInfo"
+                            [data]="companyInfo" [(ngModel)]="companyName" [settings]="singledropdownSettings"
+                            (onSelect)="onCompanySelect($event)" (onDeSelect)="onCompanyUnselect($event)">
+                        </ng-multiselect-dropdown>
+                        <small class="form-control-feedback" style="color:royalblue"> You are associated with multiple companies, please select
+                            your desired
+                            company to proceed. </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-inverse" [disabled]="continueButton"
+                (click)="selectedCompany(selectCompanyForm,otp2)">Continue</button>
+            <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #otp2 let-modal>
+    <form (ngSubmit)="!otpForm.invalid" #otpForm="ngForm">
+        <div class="modal-header">
+            <h4 class="modal-title">Enter OTP</h4>
+            <button type="button" class="close" aria-label="Close" (click)="onOtpModalClose(otp2)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group has-success">
+                        <label for="name">Enter OTP</label>
+                        <input type="hidden" name="currentCompanyName" [(ngModel)]="currentCompanyName">
+                        <input type="password" id="otp" name="otp" [(ngModel)]="otp" class="form-control" required
+                            onKeyPress="if(this.value.length==6) return false;" (keyup.enter)="validateOtp(otpForm)">
+
+                        <small class="form-control-feedback" style="color:royalblue">OTP has been sent to login email address.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-inverse" [disabled]="otpForm.invalid"
+                (click)="validateOtp(otpForm)">Continue</button>
+        </div>
+    </form>
+</ng-template>

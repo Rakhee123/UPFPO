@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button *ngIf="showCloseIcon" type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div [innerHtml]="body"></div>
+</div>
+<div class="modal-footer">
+  <button type="button" *ngIf="enableBtn" id="btn1" class="btn btn-default" (click)="btnClick1()">{{btn1}}</button>
+  <button type="button" *ngIf="enableBtn2" id="btn2" class="btn" [class.btn-primary]="!title.startsWith('Delete ')" [class.btn-danger]="title.startsWith('Delete ')" (click)="btnClick2()">{{btn2}}</button>
+</div>
